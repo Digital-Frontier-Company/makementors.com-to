@@ -263,7 +263,11 @@ export default function MentorTemplatesPage() {
                   Design a custom mentor with specific expertise tailored to your learning goals and preferences.
                 </p>
                 <div className="flex flex-wrap gap-4">
-                  <Button asChild size="lg" className="px-8 py-4 bg-neon-lime text-dark font-semibold rounded-full">
+                  <Button
+                    asChild
+                    size="lg"
+                    className="px-8 py-4 bg-gradient-to-r from-neon-lime to-neon-cyan text-darkest font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_hsl(var(--neon-cyan-hsl))]"
+                  >
                     <Link href="/create-mentor">Create Custom Mentor</Link>
                   </Button>
                   <Button

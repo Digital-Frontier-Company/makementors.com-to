@@ -280,7 +280,7 @@ export default function CreateMentorPage() {
               <Button
                 type="submit"
                 disabled={isPending}
-                className="px-12 py-6 bg-neon-lime text-darkest font-semibold rounded-full hover:bg-opacity-80 transition-all duration-300 btn-hover-effect text-lg"
+                className="px-12 py-6 bg-gradient-to-r from-neon-lime to-neon-cyan text-darkest font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_hsl(var(--neon-cyan-hsl))] text-lg"
               >
                 {isPending ? "Creating Mentor..." : "Create My AI Mentor"}
               </Button>

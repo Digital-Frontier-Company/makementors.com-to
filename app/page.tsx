@@ -18,6 +18,7 @@ import Navigation from "@/components/navigation"
 import Link from "next/link"
 import AnimatedFeatureCards from "@/components/animated-feature-cards"
 import Image from "next/image"
+import AnimatedMentorCards from "@/components/animated-mentor-cards"
 
 const mentors = [
   {
@@ -174,7 +175,10 @@ export default function LandingPage() {
         <div className="absolute inset-0 bg-cover bg-center bg-[url('/images/landing/hero_background.png')] opacity-20 -z-20" />
         <div className="container mx-auto px-4 z-10">
           <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4 text-white">
-            Get World-Class Mentorship in <span className="text-neon-lime text-glow-lime">Minutes, Not Months</span>
+            Get World-Class Mentorship in{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-lime to-neon-cyan filter drop-shadow-[0_0_8px_hsl(var(--neon-lime-hsl))]">
+              Minutes, Not Months
+            </span>
           </h1>
           <p className="max-w-3xl mx-auto text-lg md:text-xl text-gray-400 mb-8">
             Access 9 expert AI mentors across business, creativity, and personal growth - all for less than the cost of
@@ -184,7 +188,7 @@ export default function LandingPage() {
             <Button
               asChild
               size="lg"
-              className="bg-neon-lime text-darkest hover:bg-neon-lime/90 transition-transform hover:scale-105 btn-hover-effect"
+              className="bg-gradient-to-r from-neon-lime to-neon-cyan text-darkest font-semibold transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_hsl(var(--neon-cyan-hsl))] rounded-full"
             >
               <Link href="/login?mode=signup">
                 Start Free 7-Day Trial <ArrowRight className="ml-2 h-5 w-5" />
@@ -264,28 +268,7 @@ export default function LandingPage() {
               A diverse team of experts ready to guide you 24/7.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {mentors.map((mentor) => {
-              return (
-                <div key={mentor.title} className={`bg-gradient-to-br ${mentor.gradient} p-1 rounded-xl group`}>
-                  <div className="bg-[#1e293b] h-full rounded-lg p-6 flex flex-col transition-all duration-300 text-left">
-                    <div className="relative h-64 w-full mb-4 rounded-md overflow-hidden">
-                      <Image
-                        src={mentor.imageUrl || "/placeholder.svg"}
-                        alt={`Image of ${mentor.title}`}
-                        layout="fill"
-                        objectFit="cover"
-                        className="transition-transform duration-300 group-hover:scale-105"
-                      />
-                    </div>
-                    <h3 className="text-xl font-bold text-white">{mentor.title}</h3>
-                    <p className="text-sm text-gray-400 italic my-2">"{mentor.personality}"</p>
-                    <p className="flex-grow text-gray-300">"{mentor.advice}"</p>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
+          <AnimatedMentorCards mentors={mentors} />
         </div>
       </section>
 
@@ -407,7 +390,10 @@ export default function LandingPage() {
                     <CheckCircle className="h-5 w-5 text-teal-400" /> Priority support
                   </li>
                 </ul>
-                <Button asChild className="w-full bg-neon-lime text-darkest hover:bg-neon-lime/90 btn-hover-effect">
+                <Button
+                  asChild
+                  className="w-full bg-gradient-to-r from-neon-lime to-neon-cyan text-darkest font-semibold transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_hsl(var(--neon-cyan-hsl))]"
+                >
                   <Link href="/login?mode=signup">Start 7-Day Free Trial</Link>
                 </Button>
               </CardContent>
@@ -523,7 +509,11 @@ export default function LandingPage() {
               Join thousands of ambitious professionals who've transformed their careers with Make Mentors.
             </p>
             <div className="flex justify-center mb-4">
-              <Button asChild size="lg" className="bg-white text-black hover:bg-gray-200 h-14 px-10 text-lg font-bold">
+              <Button
+                asChild
+                size="lg"
+                className="bg-gradient-to-r from-neon-lime to-neon-cyan text-darkest font-bold h-14 px-10 text-lg transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_hsl(var(--neon-cyan-hsl))]"
+              >
                 <Link href="/login?mode=signup">Start Your Free Trial</Link>
               </Button>
             </div>
