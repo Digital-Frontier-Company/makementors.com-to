@@ -25,12 +25,13 @@ export async function signup(formData: FormData) {
   const email = formData.get("email") as string
   const password = formData.get("password") as string
   const supabase = createClient()
+  const origin = headers().get("origin")!
 
   const { error } = await supabase.auth.signUp({
     email,
     password,
     options: {
-      emailRedirectTo: `${new URL(headers().get("origin")!)}/auth/callback`,
+      emailRedirectTo: `${origin}/auth/callback`,
     },
   })
 
@@ -43,7 +44,7 @@ export async function signup(formData: FormData) {
 
 export async function signInWithGithub() {
   const supabase = createClient()
-  const origin = headers().get("origin")
+  const origin = headers().get("origin")!
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github",
@@ -64,4 +65,24 @@ export async function signOut() {
   const supabase = createClient()
   await supabase.auth.signOut()
   return redirect("/")
+}
+
+export async function requestPasswordReset(formData: FormData) {
+  const email = formData.get("email") as string
+  const supabase = createClient()
+  const origin = headers().get("origin")!
+
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${origin}/auth/reset-password`,
+  })
+
+  if (error) {
+    return {
+      message: "Could not send password reset link. Please try again.",
+    }
+  }
+
+  return {
+    message: "Password reset link sent. Please check your email.",
+  }
 }
