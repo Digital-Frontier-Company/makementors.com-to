@@ -1,12 +1,7 @@
-import { Loader2 } from "lucide-react"
-
-export default function Loading() {
+export default function LoginLoading() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-darkest">
-      <span className="flex flex-col items-center gap-4 text-gray-300">
-        <Loader2 className="h-8 w-8 animate-spin text-neon-lime" />
-        <span className="text-sm">Loading&nbsp;authentication&nbsp;page&hellip;</span>
-      </span>
+    <div className="min-h-screen flex items-center justify-center bg-dark">
+      <div className="animate-pulse text-neon-lime text-xl font-semibold">Loading authentication&nbsp;…</div>
     </div>
   )
 }
