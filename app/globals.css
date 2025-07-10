@@ -48,6 +48,7 @@ body {
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    --neon-lime-hsl: 74 100% 60%;
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -155,4 +156,9 @@ body {
   cursor: pointer;
   border-radius: 50%;
   box-shadow: 0 0 5px rgba(184, 255, 51, 0.8);
+}
+
+.text-glow-lime {
+  text-shadow: 0 0 5px hsl(var(--neon-lime-hsl) / 0.8), 0 0 15px hsl(var(--neon-lime-hsl) / 0.6), 0 0 30px
+    hsl(var(--neon-lime-hsl) / 0.4);
 }

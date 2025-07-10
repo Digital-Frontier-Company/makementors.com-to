@@ -17,7 +17,7 @@ const config: Config = {
         darker: "#121212",
         darkest: "#0A0A0A",
         neon: {
-          lime: "#b8ff33",
+          lime: "hsl(var(--neon-lime-hsl))",
           cyan: "#00FFFF",
           purple: "#BB00FF",
           coral: "#FF4D4D",

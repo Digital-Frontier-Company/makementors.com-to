@@ -1,6 +1,8 @@
 "use server"
 
 import { z } from "zod"
+import { createClient } from "@/lib/supabase/server"
+import { revalidatePath } from "next/cache"
 
 // Define the schema for form validation
 const mentorSchema = z.object({
@@ -9,7 +11,7 @@ const mentorSchema = z.object({
   mentorDescription: z.string().min(10, "Description must be at least 10 characters."),
   expertiseLevel: z.string(),
   communicationStyle: z.string(),
-  aggressiveness: z.string(),
+  aggressiveness: z.coerce.number(),
   dailyReminders: z.boolean(),
   achievementAlerts: z.boolean(),
   sessionReminders: z.boolean(),
@@ -22,6 +24,19 @@ export type FormState = {
 }
 
 export async function createMentorAction(prevState: FormState, formData: FormData): Promise<FormState> {
+  const supabase = createClient()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    return {
+      message: "Authentication error: You must be logged in to create a mentor.",
+      issues: ["User not found."],
+    }
+  }
+
   // Safely parse the form data
   const validatedFields = mentorSchema.safeParse({
     model: formData.get("ai-model"),
@@ -44,50 +59,41 @@ export async function createMentorAction(prevState: FormState, formData: FormDat
     }
   }
 
-  const { model, mentorName, mentorDescription, expertiseLevel, communicationStyle, aggressiveness } =
-    validatedFields.data
+  const {
+    model,
+    mentorName,
+    mentorDescription,
+    expertiseLevel,
+    communicationStyle,
+    aggressiveness,
+    dailyReminders,
+    achievementAlerts,
+    sessionReminders,
+  } = validatedFields.data
 
-  // --- This is where you would interact with the LLM ---
-  // 1. Construct the detailed system prompt
-  const systemPrompt = `
-    You are an AI Mentor named ${mentorName}.
+  // Insert data into the 'mentors' table
+  const { error } = await supabase.from("mentors").insert({
+    user_id: user.id,
+    name: mentorName,
+    description: mentorDescription,
+    model: model,
+    expertise_level: expertiseLevel,
+    communication_style: communicationStyle,
+    aggressiveness: aggressiveness,
+    daily_reminders: dailyReminders,
+    achievement_alerts: achievementAlerts,
+    session_reminders: sessionReminders,
+  })
 
-    **Your Core Task:** 
-    Teach the user about: ${mentorDescription}.
-
-    **Your Persona & Style:**
-    - Your expertise level is: ${expertiseLevel}.
-    - Your communication style is: ${communicationStyle}. You should be ${
-      communicationStyle === "encouraging"
-        ? "supportive and motivating."
-        : communicationStyle === "direct"
-          ? "straightforward and clear."
-          : communicationStyle === "socratic"
-            ? "focused on asking questions to guide the user to their own answers."
-            : "friendly and relaxed."
+  if (error) {
+    return {
+      message: "Database error: Failed to create mentor.",
+      issues: [error.message],
     }
-    - Your aggressiveness level is ${aggressiveness} out of 10. This means you should be ${
-      Number.parseInt(aggressiveness) < 4
-        ? "gentle and patient."
-        : Number.parseInt(aggressiveness) > 7
-          ? "intense, challenging, and push the user to their limits."
-          : "balanced in your approach, providing a healthy mix of support and challenge."
-    }
+  }
 
-    Adhere to this persona strictly in all your responses.
-  `
-
-  // 2. (Simulated) Call the LLM API with the prompt
-  console.log("--- Sending to LLM ---")
-  console.log("AI Model:", model)
-  console.log("System Prompt:", systemPrompt)
-  console.log("---------------------")
-  console.log("Form Data:", validatedFields.data)
-
-  // Simulate network delay
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-
-  // 3. Save the mentor configuration to your database (not implemented here)
+  // Revalidate the dashboard path to show the new mentor
+  revalidatePath("/dashboard")
 
   // Return a success message
   return { message: `Successfully created mentor: ${mentorName}!` }

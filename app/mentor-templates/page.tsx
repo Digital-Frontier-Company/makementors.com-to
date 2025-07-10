@@ -24,13 +24,14 @@ type Template = {
 const templatesData: Template[] = [
   {
     id: 1,
-    title: "Startup Founder",
+    title: "Business Strategy Advisor",
     category: "Business",
-    description: "Learn entrepreneurship, fundraising, and business strategy from an experienced startup founder.",
-    imageUrl: "/images/templates/startup-founder.png",
-    rating: 4.5,
-    reviews: 120,
-    price: "Free",
+    description:
+      "Get world-class strategic planning and market analysis from a visionary architect of unicorn companies.",
+    imageUrl: "/images/mentors/business_strategy_advisor.png",
+    rating: 4.8,
+    reviews: 155,
+    price: "Premium",
     color: "lime",
   },
   {

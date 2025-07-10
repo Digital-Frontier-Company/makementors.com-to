@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-dark text-white font-montserrat">
         <ParticleBackground />
         <AppEffects />
-        <main className="min-h-screen flex flex-col items-center">{children}</main>
+        <main className="min-h-screen">{children}</main>
         <FontAwesomeScript />
       </body>
     </html>
