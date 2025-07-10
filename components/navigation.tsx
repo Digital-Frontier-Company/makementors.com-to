@@ -5,18 +5,30 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Menu } from "lucide-react"
+import { Menu, LogOut, LayoutDashboard } from "lucide-react"
+import { supabase } from "@/lib/supabase/client"
+import type { User } from "@supabase/supabase-js"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { signOut } from "@/app/login/actions"
 
 const navLinks = [
   { name: "Home", href: "/" },
   { name: "Create Mentor", href: "/create-mentor" },
   { name: "Mentor Templates", href: "/mentor-templates" },
   { name: "Pricing", href: "/#pricing" },
-  { name: "Dashboard", href: "/dashboard" },
 ]
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(true)
   const pathname = usePathname()
 
   useEffect(() => {
@@ -24,7 +36,27 @@ export default function Navigation() {
       setIsScrolled(window.scrollY > 10)
     }
     window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+
+    const getSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
+      setUser(session?.user ?? null)
+      setLoading(false)
+    }
+
+    getSession()
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null)
+    })
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+      subscription.unsubscribe()
+    }
   }, [])
 
   const isActive = (href: string) => {
@@ -46,8 +78,68 @@ export default function Navigation() {
           {link.name}
         </Link>
       ))}
+      {user && (
+        <Link
+          href="/dashboard"
+          className={`transition-colors duration-300 hover-glow ${isMobile ? "text-2xl font-medium" : "text-sm"} ${
+            isActive("/dashboard") ? "text-neon-lime hover:text-neon-lime" : "text-gray-300 hover:text-neon-lime"
+          }`}
+        >
+          Dashboard
+        </Link>
+      )}
     </>
   )
+
+  const AuthNav = () => {
+    if (loading) {
+      return <div className="h-10 w-24 animate-pulse bg-gray-800 rounded-md" />
+    }
+
+    if (user) {
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="flex items-center space-x-2 p-1 rounded-full">
+              <img
+                src={user.user_metadata.avatar_url || "/placeholder.svg?width=40&height=40"}
+                alt={user.user_metadata.full_name || "User avatar"}
+                className="w-8 h-8 rounded-full border-2 border-neon-lime"
+              />
+              <span className="hidden lg:block text-sm text-gray-300">
+                {user.user_metadata.full_name || user.email}
+              </span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="bg-darkest border-gray-700 text-white">
+            <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
+            <DropdownMenuSeparator className="bg-gray-700" />
+            <DropdownMenuItem asChild className="cursor-pointer">
+              <Link href="/dashboard" className="flex items-center">
+                <LayoutDashboard className="mr-2 h-4 w-4" />
+                Dashboard
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => signOut()} className="cursor-pointer">
+              <LogOut className="mr-2 h-4 w-4" />
+              Sign Out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )
+    }
+
+    return (
+      <div className="hidden md:flex items-center space-x-2">
+        <Button asChild variant="ghost" className="text-gray-300 hover:text-neon-lime hover-glow">
+          <Link href="/login">Login</Link>
+        </Button>
+        <Button asChild className="bg-neon-lime text-darkest hover:bg-opacity-80 rounded-full btn-hover-effect">
+          <Link href="/login?mode=signup">Sign Up</Link>
+        </Button>
+      </div>
+    )
+  }
 
   return (
     <header
@@ -70,14 +162,7 @@ export default function Navigation() {
         </nav>
 
         <div className="flex items-center space-x-3">
-          <div className="hidden md:flex items-center mr-4">
-            <img
-              src="/placeholder.svg?width=40&height=40"
-              alt="User avatar"
-              className="w-10 h-10 rounded-full border-2 border-neon-lime"
-            />
-            <span className="ml-2 hidden lg:block">Michael</span>
-          </div>
+          <AuthNav />
 
           {/* Mobile Menu */}
           <Sheet>
@@ -94,6 +179,19 @@ export default function Navigation() {
             <SheetContent side="right" className="bg-darkest/95 border-l-gray-800 w-[80vw]">
               <div className="flex flex-col items-center justify-center h-full space-y-8">
                 <NavLinks isMobile={true} />
+                {!user && !loading && (
+                  <div className="flex flex-col space-y-4 w-full px-8">
+                    <Button asChild variant="ghost" className="text-gray-300 hover:text-neon-lime hover-glow text-2xl">
+                      <Link href="/login">Login</Link>
+                    </Button>
+                    <Button
+                      asChild
+                      className="bg-neon-lime text-darkest hover:bg-opacity-80 rounded-full btn-hover-effect text-2xl py-6"
+                    >
+                      <Link href="/login?mode=signup">Sign Up</Link>
+                    </Button>
+                  </div>
+                )}
               </div>
             </SheetContent>
           </Sheet>

@@ -181,10 +181,13 @@ export default function LandingPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
+              asChild
               size="lg"
               className="bg-neon-lime text-darkest hover:bg-neon-lime/90 transition-transform hover:scale-105 btn-hover-effect"
             >
-              Start Free 7-Day Trial <ArrowRight className="ml-2 h-5 w-5" />
+              <Link href="/login?mode=signup">
+                Start Free 7-Day Trial <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
             </Button>
             <Button
               size="lg"
@@ -403,8 +406,8 @@ export default function LandingPage() {
                     <CheckCircle className="h-5 w-5 text-teal-400" /> Priority support
                   </li>
                 </ul>
-                <Button className="w-full bg-neon-lime text-darkest hover:bg-neon-lime/90 btn-hover-effect">
-                  Start 7-Day Free Trial
+                <Button asChild className="w-full bg-neon-lime text-darkest hover:bg-neon-lime/90 btn-hover-effect">
+                  <Link href="/login?mode=signup">Start 7-Day Free Trial</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -519,8 +522,8 @@ export default function LandingPage() {
               Join thousands of ambitious professionals who've transformed their careers with Make Mentors.
             </p>
             <div className="flex justify-center mb-4">
-              <Button size="lg" className="bg-white text-black hover:bg-gray-200 h-14 px-10 text-lg font-bold">
-                Start Your Free Trial
+              <Button asChild size="lg" className="bg-white text-black hover:bg-gray-200 h-14 px-10 text-lg font-bold">
+                <Link href="/login?mode=signup">Start Your Free Trial</Link>
               </Button>
             </div>
             <div className="text-white/70 text-sm">No credit card required • Cancel anytime • 30-day guarantee</div>
