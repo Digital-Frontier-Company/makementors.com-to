@@ -159,8 +159,16 @@ export default function LandingPage() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="relative w-full h-screen min-h-[700px] flex items-center justify-center text-center overflow-hidden bg-[#0f1419] hero-bg-pattern">
+      <section className="relative w-full h-screen min-h-[800px] flex items-center justify-center text-center overflow-hidden bg-[#0f1419] hero-bg-pattern">
         <div className="container mx-auto px-4 z-10">
+          <Image
+            src="/images/logo-no-text.png"
+            alt="Make Mentors Logo"
+            width={250}
+            height={250}
+            className="mx-auto mb-6"
+            priority
+          />
           <h1 className="text-5xl md:text-7xl font-extrabold uppercase tracking-tighter mb-2.5 text-white text-shadow-lime-lg">
             Stop Dreaming.
             <br />

@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { signOut } from "@/app/login/actions"
+import Image from "next/image"
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -148,11 +149,8 @@ export default function Navigation() {
       }`}
     >
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <Link href="/" className="flex items-center space-x-2 transition-transform duration-300 hover:scale-105">
-          <div className="h-10 w-10 relative logo-glow flex items-center justify-center">
-            <div className="star-shape absolute top-0 left-0 animate-spin-slow" />
-            <div className="text-3xl font-bold text-neon-lime z-10">M</div>
-          </div>
+        <Link href="/" className="flex items-center space-x-3">
+          <Image src="/images/logo-icon.png" alt="Make Mentors Logo" width={40} height={40} />
           <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-neon-lime to-neon-cyan filter drop-shadow-[0_0_5px_hsl(var(--neon-lime-hsl))]">
             Make Mentors
           </span>
