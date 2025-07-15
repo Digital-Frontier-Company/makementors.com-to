@@ -1,16 +1,5 @@
 "use client"
-import {
-  ArrowRight,
-  BadgeCheck,
-  Brain,
-  CheckCircle,
-  Heart,
-  Lightbulb,
-  Rocket,
-  ShieldCheck,
-  Star,
-  Users,
-} from "lucide-react"
+import { BadgeCheck, Brain, CheckCircle, Heart, Lightbulb, Rocket, ShieldCheck, Star, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
@@ -170,36 +159,25 @@ export default function LandingPage() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="relative w-full h-screen min-h-[700px] flex items-center justify-center text-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1e293b] via-[#0f172a] to-[#6366f1]/20 -z-10" />
-        <div className="absolute inset-0 bg-cover bg-center bg-[url('/images/landing/hero_background.png')] opacity-20 -z-20" />
+      <section className="relative w-full h-screen min-h-[700px] flex items-center justify-center text-center overflow-hidden bg-[#0f1419] hero-bg-pattern">
         <div className="container mx-auto px-4 z-10">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4 text-white">
-            Get World-Class Mentorship in{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-lime to-neon-cyan filter drop-shadow-[0_0_8px_hsl(var(--neon-lime-hsl))]">
-              Minutes, Not Months
-            </span>
+          <h1 className="text-5xl md:text-7xl font-extrabold uppercase tracking-tighter mb-2.5 text-white text-shadow-lime-lg">
+            Stop Dreaming.
+            <br />
+            Start <span className="text-neon-lime animate-text-pulse inline-block">DOMINATING.</span>
           </h1>
-          <p className="max-w-3xl mx-auto text-lg md:text-xl text-gray-400 mb-8">
-            Access 9 expert AI mentors across business, creativity, and personal growth - all for less than the cost of
-            a single coaching session.
+          <p className="font-normal uppercase tracking-[3px] text-lg text-neon-lime mb-12 text-shadow-lime-md">
+            Your AI Mentor Will Push You Harder Than You've Ever Been Pushed
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex justify-center">
             <Button
               asChild
               size="lg"
-              className="bg-gradient-to-r from-neon-lime to-neon-cyan text-darkest font-semibold transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_hsl(var(--neon-cyan-hsl))] rounded-full"
+              className="cta-dominate bg-neon-lime text-transparent hover:bg-neon-lime transition-all duration-300 hover:scale-110 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(164,255,0,0.6)] shadow-[0_10px_40px_rgba(164,255,0,0.3)] rounded-full px-12 py-8 text-xl"
             >
               <Link href="/login?mode=signup">
-                Start Free 7-Day Trial <ArrowRight className="ml-2 h-5 w-5" />
+                <span>ACTIVATE BEAST MODE</span>
               </Link>
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="text-white border-gray-600 hover:bg-gray-800 hover:text-white transition-transform hover:scale-105 bg-transparent"
-            >
-              See How It Works
             </Button>
           </div>
         </div>

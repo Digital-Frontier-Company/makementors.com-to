@@ -111,6 +111,10 @@ const config: Config = {
           "0%": { width: "60px", borderRadius: "9999px" },
           "100%": { width: "300px", borderRadius: "20px" },
         },
+        "text-pulse": {
+          "0%, 100%": { transform: "scale(1)", filter: "brightness(1)" },
+          "50%": { transform: "scale(1.05)", filter: "brightness(1.3)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -120,6 +124,7 @@ const config: Config = {
         glow: "glow 2s ease-in-out infinite alternate",
         "spin-slow": "spin 8s linear infinite",
         expand: "expand 0.5s forwards",
+        "text-pulse": "text-pulse 2s ease-in-out infinite",
       },
     },
   },
