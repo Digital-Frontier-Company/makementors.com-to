@@ -4,8 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Menu, LogOut, LayoutDashboard } from "lucide-react"
+import { LogOut, LayoutDashboard } from "lucide-react"
 import { supabase } from "@/lib/supabase/client"
 import type { User } from "@supabase/supabase-js"
 import {
@@ -18,6 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { signOut } from "@/app/login/actions"
 import Image from "next/image"
+import { UserNav } from "@/components/user-nav"
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -144,57 +144,48 @@ export default function Navigation() {
 
   return (
     <header
-      className={`sticky top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 bg-black/50 backdrop-blur-lg transition-all duration-300 ${
         isScrolled ? "bg-darkest/70 backdrop-blur-md" : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <Link href="/" className="flex items-center space-x-3">
-          <Image src="/images/logo-icon.png" alt="Make Mentors Logo" width={40} height={40} />
-          <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-neon-lime to-neon-cyan filter drop-shadow-[0_0_5px_hsl(var(--neon-lime-hsl))]">
-            Make Mentors
+      <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
+        <Link href="/" className="flex items-center gap-2" prefetch={false}>
+          <Image
+            src="/images/logo-icon.png"
+            alt="MakeMentors Logo"
+            width={40}
+            height={40}
+            className="animate-hero-logo"
+          />
+          <span className="text-2xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-lime-300 to-cyan-400 drop-shadow-[0_0_10px_rgba(163,230,53,0.5)]">
+            MakeMentors
           </span>
         </Link>
-
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-6">
-          <NavLinks />
+        <nav className="hidden items-center gap-6 md:flex">
+          <Link
+            href="/mentor-templates"
+            className="text-lg font-medium text-gray-300 transition-colors hover:text-lime-300 hover:drop-shadow-[0_0_5px_rgba(163,230,53,0.7)]"
+            prefetch={false}
+          >
+            Templates
+          </Link>
+          <Link
+            href="/create-mentor"
+            className="text-lg font-medium text-gray-300 transition-colors hover:text-lime-300 hover:drop-shadow-[0_0_5px_rgba(163,230,53,0.7)]"
+            prefetch={false}
+          >
+            Create
+          </Link>
+          <Link
+            href="/contact"
+            className="text-lg font-medium text-gray-300 transition-colors hover:text-lime-300 hover:drop-shadow-[0_0_5px_rgba(163,230,53,0.7)]"
+            prefetch={false}
+          >
+            Contact
+          </Link>
         </nav>
-
-        <div className="flex items-center space-x-3">
-          <AuthNav />
-
-          {/* Mobile Menu */}
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="md:hidden p-2 rounded-full bg-gray-800 text-gray-400 hover:text-neon-lime hover:bg-gray-700"
-              >
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Open menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="bg-darkest/95 border-l-gray-800 w-[80vw]">
-              <div className="flex flex-col items-center justify-center h-full space-y-8">
-                <NavLinks isMobile={true} />
-                {!user && !loading && (
-                  <div className="flex flex-col space-y-4 w-full px-8">
-                    <Button asChild variant="ghost" className="text-gray-300 hover:text-neon-lime hover-glow text-2xl">
-                      <Link href="/login">Login</Link>
-                    </Button>
-                    <Button
-                      asChild
-                      className="bg-neon-lime text-darkest hover:bg-opacity-80 rounded-full btn-hover-effect text-2xl py-6"
-                    >
-                      <Link href="/login?mode=signup">Sign Up</Link>
-                    </Button>
-                  </div>
-                )}
-              </div>
-            </SheetContent>
-          </Sheet>
+        <div className="flex items-center gap-4">
+          <UserNav />
         </div>
       </div>
     </header>
